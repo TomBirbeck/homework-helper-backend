@@ -4,35 +4,35 @@ export const tasks = [
     due: "12-12-2022",
     description: "test",
     completed: false,
-    student: "test1@email.com"
+    student_email: "test1@email.com"
 },
     {subject: "maths",
     topic: "algebra",
     due: "15-12-2022",
     description: "test",
     completed: false,
-    student: "test1@email.com"
+    student_email: "test1@email.com"
 },
     {subject: "biology",
     topic: "photosythensis",
     due: "20-12-2022",
     description: "test",
     completed: false,
-    student: "test2@email.com"
+    student_email: "test2@email.com"
 },
     {subject: "history",
     topic: "english civil war",
     due: "12-12-2022",
     description: "test",
     completed: false,
-    student: "test3@email.com"
+    student_email: "test3@email.com"
 },
     {subject: "it",
     topic: "databases",
     due: "17-12-2022",
     description: "test",
     completed: false,
-    student: "test3@email.com"
+    student_email: "test3@email.com"
 },
 
 ]

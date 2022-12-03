@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
+  "type":"module",
   "module": "esnext",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run tsc",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "create": "node ./src/db/scripts/createTable.js"
   },
   "repository": {
     "type": "git",
