@@ -29,7 +29,7 @@ async function populateStudents(students) {
 // async function populateTasks(tasks) {
 //     for (let i = 0; i < tasks.length; i++) {
 //       let res = await pool.query(
-//         'insert into tasks (firstname,surname,student_email,password,code) values ($1,$2,$3,$4,$5,$6) returning *',
+//         'insert into tasks (subject, topic,description,due,completed,creator_email) values ($1,$2,$3,$4,$5,$6) returning *',
 //         [tasks[i].subject, tasks[i].topic, tasks[i].description, tasks[i].due, tasks[i].completed, tasks[i].student_email]
 //       );
 //       console.log(res.rows);
