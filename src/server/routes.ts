@@ -1,5 +1,5 @@
 import express from "express";
-import { createNewParent, createNewStudent, createNewTask, test } from "../modules/handlers.js";
+import { createNewParent, createNewStudent, createNewTask, deleteParent, deleteStudent, deleteTask, getAllStudents, test } from "../modules/handlers.js";
 const router = express.Router()
 
 router.get('/', async (req, res, next) =>{
@@ -30,7 +30,15 @@ router.post('/signup', async (req, res,next) => {
 })
 
 router.get('/student', async (req, res,next) =>{
-    
+try {
+    const payload = await getAllStudents()
+    console.log(res)
+    res.json({payload:res})
+} catch (error) {
+    res.status(404)
+    res.json({message:"failed to return request"})
+}
+next()
 })
 
 router.get('/parent', async (req, res, next) =>{
@@ -76,7 +84,35 @@ router.patch('/student/:id', async (req, res, next) =>{
 })
 
 router.delete('/student/:id', async (req, res, next) =>{
+    try {
+        const payload = await deleteStudent(Number(req.params.id))
+        res.json({success: true, payload: payload})
+        
+    } catch (error) {
+        res.status(400)
+        res.json({message: "failed to delete student"})
+    }
+    next()
 
+})
+router.delete('/parent/:id', async (req, res, next) =>{
+    try {
+        const payload = await deleteParent(Number(req.params.id))
+        res.json({success: true, payload: payload})
+    } catch (error) {
+        res.status(400)
+        res.json({success:false, message: "failed to delete parent"})
+    }
+
+})
+router.delete('/tasks/:id', async (req, res, next) =>{
+    try {
+        const payload = await deleteTask(Number(req.params.id))
+        res.json({success: true, payload: payload})
+    } catch (error) {
+        res.status(400)
+        res.json({success: false, message: "failed to delete task"})
+    }
 })
 
 export default router
