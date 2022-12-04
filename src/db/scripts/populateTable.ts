@@ -1,20 +1,20 @@
-import pool from '../index.js'
-import {tasks, students} from "../dummyData.js";
+import pool from '../index'
+import {tasks, students} from "../dummyData";
 
-// interface studentIProps {
-//         firstname: String,
-//         surname: String,
-//         email: String,
-//         password: String,
-//         code: String
-// }
+interface studentIProps {
+        firstname: String,
+        surname: String,
+        email: String,
+        password: String,
+        code: String
+}
 
 // interface studentArrayProps {
 //     students: studentIProps[]
 //     length: Number
 // }
 
-async function populateStudents(students) {
+async function populateStudents(students:Array<studentIProps>) {
     for (let i = 0; i < students.length; i++) {
       let res = await pool.query(
         'insert into student (firstname,surname,email,password,code) values ($1,$2,$3,$4,$5) returning *',

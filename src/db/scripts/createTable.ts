@@ -1,4 +1,4 @@
-import pool from '../index.js'
+import pool from '../index'
 
 await pool.query(
     'CREATE TABLE IF NOT EXISTS student (student_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY, firstname VARCHAR (100), surname VARCHAR (100), email TEXT, password VARCHAR(100), code TEXT)'

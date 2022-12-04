@@ -1,6 +1,6 @@
-import pool from '../index.js';
+import pool from '../index';
 
-async function deleteTable(tableName) {
+async function deleteTable(tableName:String) {
   await pool.query(`DROP TABLE IF EXISTS ${tableName}`);
   console.log(`table ${tableName} deleted`);
 }
