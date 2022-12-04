@@ -15,18 +15,31 @@ export const createNewParent = async (firstname:String, surname:String, email:St
     const res = await pool.query('INSERT INTO parent (firstname, surname, email, password, child_id) VALUES ($1,$2,$3,$4,$5) RETURNING *;', [firstname, surname, email, password, childId])
     return res.rows
 }
-export const createNewTask = async (subject:String, topic:String, description:String, due:String, completed:Boolean,) =>{
-    const res = await pool.query('INSERT INTO tasks (subject, topic, description, due, completed) VALUES ($1,$2,$3,$4,$5) RETURNING*;', [subject, topic, description, due, completed])
+export const createNewTask = async (subject:String, topic:String, description:String, due:String, completed:Boolean, studentId:Number) =>{
+    const res = await pool.query('INSERT INTO tasks (subject, topic, description, due, completed, creator_id) VALUES ($1,$2,$3,$4,$5,$6) RETURNING*;', [subject, topic, description, due, completed, studentId])
     return res.rows
 }
 
 export const getAllStudents = async () => {
-    const res = await pool.query(`SELECT * FROM student`)
+    const res = await pool.query(`SELECT * FROM student;`)
     return res.rows
 }
 
-export const getTasksForStudent = (studentId:Number) => {
+export const getTasksForStudent = async (studentId:Number) => {
+    const res = await pool.query('SELECT * FROM tasks WHERE creator_id = ($1);', [studentId])
+    return res.rows
 }
+
+export const getParentById = async (parentId:Number) => {
+    const res = await pool.query('SELECT * FROM parent WHERE parent_id = ($1);', [parentId])
+    return res.rows
+}
+
+export const getStudentTasksForParent = async (creatorId:Number) => {
+    const res = await pool.query('SELECT * FROM tasks WHERE creator_id = ($1);', [creatorId])
+    return res.rows
+}
+
 export const updateStudent = (studentId:Number, body: {}) =>{
 }
 export const updateParent = (parentId:Number, body: {}) =>{

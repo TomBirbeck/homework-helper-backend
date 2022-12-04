@@ -1,5 +1,5 @@
 import express from "express";
-import { createNewParent, createNewStudent, createNewTask, deleteParent, deleteStudent, deleteTask, getAllStudents, test } from "../modules/handlers.js";
+import { createNewParent, createNewStudent, createNewTask, deleteParent, deleteStudent, deleteTask, getAllStudents, getParentById, getTasksForStudent, test } from "../modules/handlers.js";
 const router = express.Router()
 
 router.get('/', async (req, res, next) =>{
@@ -33,16 +33,33 @@ router.get('/student', async (req, res,next) =>{
 try {
     const payload = await getAllStudents()
     console.log(res)
-    res.json({payload:res})
+    res.json({payload:payload})
 } catch (error) {
-    res.status(404)
-    res.json({message:"failed to return request"})
+    res.status(300)
+    res.json({success: false, message:"failed to return request"})
 }
 next()
 })
 
-router.get('/parent', async (req, res, next) =>{
-    
+router.get('/student/:id', async (req, res, next) => {
+    try {
+        const payload = await getTasksForStudent(Number(req.params.id))
+        res.json({success: true, payload: payload})
+    } catch (error) {
+        res.status(300)
+        res.json({success: false, message: "request failed"})
+    }
+    next()
+})
+
+router.get('/parent/:id', async (req, res, next) =>{
+    try {
+        const payload = await getParentById(Number(req.params.id))
+        res.json({success: true, payload: payload})
+    } catch (error) {
+        res.status(404)
+        res.json({success: false, message: "parent not found"})
+    }
 })
 
 router.post('/student', async (req, res, next) =>{
@@ -67,14 +84,15 @@ router.post('/parent', async (req, res, next) =>{
     }
     next()
 })
-router.post('/tasks', async (req, res, next) =>{
+router.post('/tasks/:id', async (req, res, next) =>{
     try { 
         const {subject, topic, description, due, completed} = req.body
-        const payload = await createNewTask(subject, topic, description, due, completed)
+        const studentId = Number(req.params.id)
+        const payload = await createNewTask(subject, topic, description, due, completed, studentId)
         res.json({message: "new task created", payload: payload})
     } catch (error) {
         res.status(404)
-        res.json({message: "error in creating task"})
+        res.json({success: false, message: error })
     }
     next()
 })
@@ -103,7 +121,7 @@ router.delete('/parent/:id', async (req, res, next) =>{
         res.status(400)
         res.json({success:false, message: "failed to delete parent"})
     }
-
+    next()
 })
 router.delete('/tasks/:id', async (req, res, next) =>{
     try {
@@ -113,6 +131,7 @@ router.delete('/tasks/:id', async (req, res, next) =>{
         res.status(400)
         res.json({success: false, message: "failed to delete task"})
     }
+    next()
 })
 
 export default router
