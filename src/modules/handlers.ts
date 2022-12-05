@@ -40,9 +40,23 @@ export const getStudentTasksForParent = async (creatorId:Number) => {
     return res.rows
 }
 
-export const updateStudent = (studentId:Number, body: {}) =>{
+export const updateStudent = async (body: {firstname: String, surname: String, email:string, password: String}, student_id: Number) =>{
+    // console.log(student_id)
+    // const bodies = [{firstname: body.firstname}, {surname: body.surname}, {email: body.email}, {password:body.password}]
+    // console.log(bodies)
+    // for (let i = 0; i < bodies.length; i++) {
+    //     console.log(bodies[i])
+    //     if (bodies[i] === null ){
+    //         const res = await pool.query(`UPDATE student SET ${bodies[i]}=($1), WHERE student_id=($2) RETURNING*;`,[bodies[i], student_id])
+    //         return res.rows
+    //     }
+    // }
+    const res = await pool.query('UPDATE student SET firstname=($1), surname=($2), email=($3), password=($4) WHERE student_id=($5) RETURNING*;',[body.firstname, body.surname, body.email, body.password, student_id])
+    return res.rows
 }
-export const updateParent = (parentId:Number, body: {}) =>{
+export const updateParent = async (body: {firstname: String, surname: String, email:string, password: String, child_id:Number, parent_id:Number}) =>{
+    const res = await pool.query('UPDATE parent firstname=($1) surname=($2) email=($3) password=($4) child_id=($5) WHERE parent_id=($6);',[body.firstname, body.surname, body.email, body.password, body.child_id, body.parent_id])
+    return res.rows
 }
 export const updateTask = (taskId:Number, body: {}) => {
 }

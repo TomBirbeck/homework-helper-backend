@@ -1,5 +1,5 @@
 import express from "express";
-import { createNewParent, createNewStudent, createNewTask, deleteParent, deleteStudent, deleteTask, getAllStudents, getParentById, getTasksForStudent, test } from "../modules/handlers.js";
+import { createNewParent, createNewStudent, createNewTask, deleteParent, deleteStudent, deleteTask, getAllStudents, getParentById, getTasksForStudent, test, updateStudent } from "../modules/handlers.js";
 const router = express.Router()
 
 router.get('/', async (req, res, next) =>{
@@ -15,7 +15,6 @@ router.get('/', async (req, res, next) =>{
 router.get('/test',async (req, res, next) => {
     try {
         const payload = await test()
-        console.log(payload)
         res.send({message: "here is your test data", payload: payload})
     } catch (error) {
         res.status(400)
@@ -32,7 +31,6 @@ router.post('/signup', async (req, res,next) => {
 router.get('/student', async (req, res,next) =>{
 try {
     const payload = await getAllStudents()
-    console.log(res)
     res.json({payload:payload})
 } catch (error) {
     res.status(300)
@@ -98,7 +96,30 @@ router.post('/tasks/:id', async (req, res, next) =>{
 })
 
 router.patch('/student/:id', async (req, res, next) =>{
+    try {
+        const id = Number(req.params.id)
 
+        // const {firstname, surname, email, password} = req.body
+        // const body = [{firstname: firstname},{surname: surname}, {email:email}, {password:password} ]
+        const payload = await updateStudent(req.body, id)
+        res.json({success: true, payload: payload})
+        
+    } catch (error) {
+        res.status(300)
+        res.json({success: false, message: "error occurred when trying to update student", error: error})
+    }
+
+})
+router.patch('/parent/:id', async (req, res, next) =>{
+    try {
+        const id = Number(req.params.id)
+        const payload = await updateStudent(req.body, id)
+        res.json({success: true, payload: payload})
+        
+    } catch (error) {
+        res.status(300)
+        res.json({success: false, message: "error occurred when trying to update parent", error: error})
+    }
 })
 
 router.delete('/student/:id', async (req, res, next) =>{
