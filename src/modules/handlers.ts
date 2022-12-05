@@ -54,11 +54,17 @@ export const updateStudent = async (body: {firstname: String, surname: String, e
     const res = await pool.query('UPDATE student SET firstname=($1), surname=($2), email=($3), password=($4) WHERE student_id=($5) RETURNING*;',[body.firstname, body.surname, body.email, body.password, student_id])
     return res.rows
 }
-export const updateParent = async (body: {firstname: String, surname: String, email:string, password: String, child_id:Number, parent_id:Number}) =>{
-    const res = await pool.query('UPDATE parent firstname=($1) surname=($2) email=($3) password=($4) child_id=($5) WHERE parent_id=($6);',[body.firstname, body.surname, body.email, body.password, body.child_id, body.parent_id])
+export const updateParent = async (body: {firstname: String, surname: String, email:string, password: String, child_id:Number}, parent_id:Number) =>{
+    const res = await pool.query('UPDATE parent SET firstname=($1) surname=($2) email=($3) password=($4) child_id=($5) WHERE parent_id=($6) RETURNING*;',[body.firstname, body.surname, body.email, body.password, body.child_id, parent_id])
     return res.rows
 }
-export const updateTask = (taskId:Number, body: {}) => {
+export const updateTask = async (body: {subject: String, topic: String, description: String, due: String, completed: Boolean}, task_id: Number) => {
+    const res = await pool.query('UPDATE tasks SET subject=($1), topic=($2), description=($3), due=($4), completed=($5) WHERE task_id=($6) RETURNING*;', [body.subject, body.topic, body.description, body.due, body.completed, task_id])
+    return res.rows
+}
+export const completeTask = async (task_id: Number) => {
+    const res = await pool.query('UPDATE tasks SET completed = NOT completed WHERE task_id=($1) RETURNING*;', [task_id])
+    return res.rows
 }
 export const deleteTask = async (taskId:Number) => {
     const res = await pool.query('DELETE FROM tasks WHERE task_id = ($1);',[taskId])

@@ -1,5 +1,5 @@
 import express from "express";
-import { createNewParent, createNewStudent, createNewTask, deleteParent, deleteStudent, deleteTask, getAllStudents, getParentById, getTasksForStudent, test, updateStudent } from "../modules/handlers.js";
+import { completeTask, createNewParent, createNewStudent, createNewTask, deleteParent, deleteStudent, deleteTask, getAllStudents, getParentById, getTasksForStudent, test, updateParent, updateStudent, updateTask } from "../modules/handlers.js";
 const router = express.Router()
 
 router.get('/', async (req, res, next) =>{
@@ -108,18 +108,45 @@ router.patch('/student/:id', async (req, res, next) =>{
         res.status(300)
         res.json({success: false, message: "error occurred when trying to update student", error: error})
     }
-
+    next()
 })
 router.patch('/parent/:id', async (req, res, next) =>{
     try {
         const id = Number(req.params.id)
-        const payload = await updateStudent(req.body, id)
+        const payload = await updateParent(req.body, id)
         res.json({success: true, payload: payload})
         
     } catch (error) {
         res.status(300)
         res.json({success: false, message: "error occurred when trying to update parent", error: error})
     }
+    next()
+})
+
+router.patch('/tasks/:id', async (req, res, next) =>{
+    try {
+        const id = Number(req.params.id)
+        const payload = await updateTask(req.body, id)
+        res.json({success: true, payload: payload})
+
+    } catch (error) {
+        res.status(300)
+        res.json({success: false, message: "error occurred when trying to update task", error: error})
+    }
+    next()
+})
+
+router.patch('/tasks/completed/:id', async (req, res, next) =>{
+    try {
+        const id = Number(req.params.id)
+        const payload = await completeTask(id)
+        res.json({success: true, payload: payload})
+
+    } catch (error) {
+        res.status(300)
+        res.json({success: false, message: "error occurred when trying to update task completion", error: error})
+    }
+    next()
 })
 
 router.delete('/student/:id', async (req, res, next) =>{
