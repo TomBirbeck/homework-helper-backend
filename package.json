@@ -7,7 +7,7 @@
   "module": "esnext",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc",
     "dev": "nodemon src/server/index",
     "create": "node ./src/db/scripts/createTable"
   },
