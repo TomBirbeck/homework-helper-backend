@@ -1,5 +1,5 @@
 import express from "express";
-import { completeTask, createNewParent, createNewStudent, createNewTask, deleteParent, deleteStudent, deleteTask, getAllStudents, getParentById, getTasksForStudent, test, updateParent, updateStudent, updateTask } from "../modules/handlers.js";
+import { completeTask, createNewParent, createNewStudent, createNewTask, deleteParent, deleteStudent, deleteTask, getAllStudents, getParentById, getStudentById, getTasksForStudent, test, updateParent, updateStudent, updateTask } from "../modules/handlers.js";
 const router = express.Router()
 
 router.get('/', async (req, res, next) =>{
@@ -28,10 +28,10 @@ router.post('/signup', async (req, res,next) => {
     
 })
 
-router.get('/student', async (req, res,next) =>{
+router.get('/student/:id', async (req, res,next) =>{
 try {
-    const payload = await getAllStudents()
-    res.json({payload:payload})
+    const payload = await getStudentById(Number(req.params.id))
+    res.json({success: true, payload:payload})
 } catch (error) {
     res.status(300)
     res.json({success: false, message:"failed to return request"})
@@ -39,7 +39,7 @@ try {
 next()
 })
 
-router.get('/student/:id', async (req, res, next) => {
+router.get('/student/tasks/:id', async (req, res, next) => {
     try {
         const payload = await getTasksForStudent(Number(req.params.id))
         res.json({success: true, payload: payload})

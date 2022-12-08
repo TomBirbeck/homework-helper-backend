@@ -10,7 +10,8 @@
     "build": "tsc",
     "start": "node build/server/index.js",
     "dev": "nodemon src/server/index",
-    "create": "node ./src/db/scripts/createTable"
+    "create": "node ./src/db/scripts/createTable.js",
+    "delete": "node ./src/db/scripts/deleteTable.js"
   },
   "repository": {
     "type": "git",

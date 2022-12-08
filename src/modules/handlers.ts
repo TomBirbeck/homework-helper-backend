@@ -1,7 +1,7 @@
 import pool from '../db/index.js'
 
 export const test = async () => {
-    const res = await pool.query(`SELECT * FROM tasks;`)
+    const res = await pool.query(`SELECT * FROM tasks RETURNING *;`)
     return res.rows
     }
 
@@ -25,8 +25,14 @@ export const getAllStudents = async () => {
     return res.rows
 }
 
+export const getStudentById =async (id:Number) => {
+    const res = await pool.query(`SELECT * FROM student WHERE student_id=($1);`,[id])
+    return res.rows
+    }
+
 export const getTasksForStudent = async (studentId:Number) => {
     const res = await pool.query('SELECT * FROM tasks WHERE creator_id = ($1);', [studentId])
+    // const res = await pool.query(`SELECT * FROM tasks WHERE creator_id=($1)JOIN student ON creator_id = student_id GROUP BY tasks;`, [studentId])
     return res.rows
 }
 
