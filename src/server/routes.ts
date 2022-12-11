@@ -1,5 +1,5 @@
 import express from "express";
-import { completeTask, createNewParent, createNewStudent, createNewTask, deleteParent, deleteStudent, deleteTask, getAllStudents, getParentById, getStudentById, getTasksForStudent, test, updateParent, updateStudent, updateTask } from "../modules/handlers.js";
+import { completeTask, createNewParent, createNewStudent, createNewTask, deleteParent, deleteStudent, deleteTask, getAllStudents, getParentByEmail, getParentById, getStudentByEmail, getStudentById, getTasksForStudent, test, updateParent, updateStudent, updateTask } from "../modules/handlers.js";
 const router = express.Router()
 
 router.get('/', async (req, res, next) =>{
@@ -39,6 +39,19 @@ try {
 next()
 })
 
+router.get('/student', async (req, res, next) =>{
+    try {
+        if(req.query.email){
+            const payload = await getStudentByEmail(req.query.email)
+            res.json({success: true, payload: payload})
+        }
+    } catch (error) {
+        res.status(404)
+        res.json({success: false, message: "student not found"})
+    }
+    next()
+})
+
 router.get('/student/tasks/:id', async (req, res, next) => {
     try {
         const payload = await getTasksForStudent(Number(req.params.id))
@@ -58,6 +71,19 @@ router.get('/parent/:id', async (req, res, next) =>{
         res.status(404)
         res.json({success: false, message: "parent not found"})
     }
+    next()
+})
+router.get('/parent', async (req, res, next) =>{
+    try {
+        if(req.query.email){
+            const payload = await getParentByEmail(req.query.email)
+            res.json({success: true, payload: payload})
+        }
+    } catch (error) {
+        res.status(404)
+        res.json({success: false, message: "parent not found"})
+    }
+    next()
 })
 
 router.post('/student', async (req, res, next) =>{
