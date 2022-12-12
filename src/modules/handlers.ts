@@ -30,7 +30,7 @@ export const getStudentById =async (id:Number) => {
     return res.rows
     }
 
-export const getStudentByEmail = async (studentEmail:any) => {
+export const getStudentByEmail = async (studentEmail:String) => {
         const res = await pool.query('SELECT * FROM student WHERE email = ($1);', [studentEmail])
         return res.rows
     }
@@ -45,7 +45,7 @@ export const getParentById = async (parentId:Number) => {
     const res = await pool.query('SELECT * FROM parent WHERE parent_id = ($1);', [parentId])
     return res.rows
 }
-export const getParentByEmail = async (parentEmail:any) => {
+export const getParentByEmail = async (parentEmail:String) => {
     const res = await pool.query('SELECT * FROM parent WHERE email = ($1);', [parentEmail])
     return res.rows
 }

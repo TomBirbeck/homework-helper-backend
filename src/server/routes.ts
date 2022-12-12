@@ -42,7 +42,7 @@ next()
 router.get('/student', async (req, res, next) =>{
     try {
         if(req.query.email){
-            const payload = await getStudentByEmail(req.query.email)
+            const payload = await getStudentByEmail(String(req.query.email))
             res.json({success: true, payload: payload})
         }
     } catch (error) {
@@ -76,7 +76,7 @@ router.get('/parent/:id', async (req, res, next) =>{
 router.get('/parent', async (req, res, next) =>{
     try {
         if(req.query.email){
-            const payload = await getParentByEmail(req.query.email)
+            const payload = await getParentByEmail(String(req.query.email))
             res.json({success: true, payload: payload})
         }
     } catch (error) {
