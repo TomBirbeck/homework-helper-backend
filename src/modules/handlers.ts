@@ -1,18 +1,19 @@
 import pool from '../db/index.js'
+import {v4 as uuidv4} from 'uuid';
 
 export const test = async () => {
     const res = await pool.query(`SELECT * FROM tasks RETURNING *;`)
     return res.rows
     }
 
-export const createNewStudent = async (firstname:String, surname:String, email:String, password:String) =>{
-    const code = `${firstname}` + `${surname}`
-const res = await pool.query('INSERT INTO student (firstname, surname, email, password, code) VALUES ($1,$2,$3,$4,$5) RETURNING *;', [firstname, surname, email, password, code])
+export const createNewStudent = async (firstname:String, surname:String, email:String) =>{
+    const code = uuidv4()
+const res = await pool.query('INSERT INTO student (firstname, surname, email, student_code) VALUES ($1,$2,$3,$4) RETURNING *;', [firstname, surname, email, code])
 return res.rows
 }
 
-export const createNewParent = async (firstname:String, surname:String, email:String, password:String, childId:String) =>{
-    const res = await pool.query('INSERT INTO parent (firstname, surname, email, password, child_id) VALUES ($1,$2,$3,$4,$5) RETURNING *;', [firstname, surname, email, password, childId])
+export const createNewParent = async (firstname:String, surname:String, email:String, childId:String) =>{
+    const res = await pool.query('INSERT INTO parent (firstname, surname, email, child_id) VALUES ($1,$2,$3,$4) RETURNING *;', [firstname, surname, email, childId])
     return res.rows
 }
 export const createNewTask = async (subject:String, topic:String, description:String, due:String, completed:Boolean, studentId:Number) =>{
@@ -55,9 +56,9 @@ export const getStudentTasksForParent = async (creatorId:Number) => {
     return res.rows
 }
 
-export const updateStudent = async (body: {firstname: String, surname: String, email:string, password: String}, student_id: Number) =>{
+export const updateStudent = async (body: {firstname: String, surname: String, email:string}, student_id: Number) =>{
     // console.log(student_id)
-    // const bodies = [{firstname: body.firstname}, {surname: body.surname}, {email: body.email}, {password:body.password}]
+    // const bodies = [{firstname: body.firstname}, {surname: body.surname}, {email: body.email}]
     // console.log(bodies)
     // for (let i = 0; i < bodies.length; i++) {
     //     console.log(bodies[i])
@@ -66,11 +67,11 @@ export const updateStudent = async (body: {firstname: String, surname: String, e
     //         return res.rows
     //     }
     // }
-    const res = await pool.query('UPDATE student SET firstname=($1), surname=($2), email=($3), password=($4) WHERE student_id=($5) RETURNING*;',[body.firstname, body.surname, body.email, body.password, student_id])
+    const res = await pool.query('UPDATE student SET firstname=($1), surname=($2), email=($3) WHERE student_id=($4) RETURNING*;',[body.firstname, body.surname, body.email, student_id])
     return res.rows
 }
-export const updateParent = async (body: {firstname: String, surname: String, email:string, password: String, child_id:Number}, parent_id:Number) =>{
-    const res = await pool.query('UPDATE parent SET firstname=($1) surname=($2) email=($3) password=($4) child_id=($5) WHERE parent_id=($6) RETURNING*;',[body.firstname, body.surname, body.email, body.password, body.child_id, parent_id])
+export const updateParent = async (body: {firstname: String, surname: String, email:string, child_id:String}, parent_id:Number) =>{
+    const res = await pool.query('UPDATE parent SET firstname=($1) surname=($2) email=($3) child_id=($4) WHERE parent_id=($5) RETURNING*;',[body.firstname, body.surname, body.email, body.child_id, parent_id])
     return res.rows
 }
 export const updateTask = async (body: {subject: String, topic: String, description: String, due: String, completed: Boolean}, task_id: Number) => {

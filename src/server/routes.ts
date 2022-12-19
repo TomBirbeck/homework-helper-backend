@@ -88,8 +88,8 @@ router.get('/parent', async (req, res, next) =>{
 
 router.post('/student', async (req, res, next) =>{
     try { 
-        const {firstname, surname, email, password} = req.body
-        const payload = await createNewStudent(firstname, surname, email, password)
+        const {firstname, surname, email} = req.body
+        const payload = await createNewStudent(firstname, surname, email)
         res.json({message: "new user created", payload: payload})
     } catch (error) {
         res.status(404)
@@ -99,8 +99,8 @@ router.post('/student', async (req, res, next) =>{
 })
 router.post('/parent', async (req, res, next) =>{
     try { 
-        const {firstname, surname, email, password, child_id} = req.body
-        const payload = await createNewParent(firstname, surname, email, password, child_id)
+        const {firstname, surname, email, child_id} = req.body
+        const payload = await createNewParent(firstname, surname, email, child_id)
         res.json({message: "new parent created", payload: payload})
     } catch (error) {
         res.status(404)
