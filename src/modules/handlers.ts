@@ -1,8 +1,8 @@
-import pool from '../db/index.js'
+import pool from '../db/index'
 import {v4 as uuidv4} from 'uuid';
 
 export const test = async () => {
-    const res = await pool.query(`SELECT * FROM tasks RETURNING *;`)
+    const res = await pool.query(`SELECT * FROM tasks WHERE student_code =  RETURNING *;`)
     return res.rows
     }
 
@@ -16,8 +16,8 @@ export const createNewParent = async (firstname:String, surname:String, email:St
     const res = await pool.query('INSERT INTO parent (firstname, surname, email, child_id) VALUES ($1,$2,$3,$4) RETURNING *;', [firstname, surname, email, childId])
     return res.rows
 }
-export const createNewTask = async (subject:String, topic:String, description:String, due:String, completed:Boolean, studentId:Number) =>{
-    const res = await pool.query('INSERT INTO tasks (subject, topic, description, due, completed, creator_id) VALUES ($1,$2,$3,$4,$5,$6) RETURNING*;', [subject, topic, description, due, completed, studentId])
+export const createNewTask = async (subject:String, topic:String, description:String, due:String, completed:Boolean, creatorId:String) =>{
+    const res = await pool.query('INSERT INTO tasks (subject, topic, description, due, completed, creator_id) VALUES ($1,$2,$3,$4,$5,$6) RETURNING*;', [subject, topic, description, due, completed, creatorId])
     return res.rows
 }
 
@@ -36,8 +36,8 @@ export const getStudentByEmail = async (studentEmail:String) => {
         return res.rows
     }
 
-export const getTasksForStudent = async (studentId:Number) => {
-    const res = await pool.query('SELECT * FROM tasks WHERE creator_id = ($1);', [studentId])
+export const getTasksForStudent = async (creatorId:String) => {
+    const res = await pool.query('SELECT * FROM tasks WHERE creator_id = ($1);', [creatorId])
     // const res = await pool.query(`SELECT * FROM tasks WHERE creator_id=($1)JOIN student ON creator_id = student_id GROUP BY tasks;`, [studentId])
     return res.rows
 }
@@ -51,7 +51,7 @@ export const getParentByEmail = async (parentEmail:String) => {
     return res.rows
 }
 
-export const getStudentTasksForParent = async (creatorId:Number) => {
+export const getStudentTasksForParent = async (creatorId:String) => {
     const res = await pool.query('SELECT * FROM tasks WHERE creator_id = ($1);', [creatorId])
     return res.rows
 }

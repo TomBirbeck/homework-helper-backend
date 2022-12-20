@@ -5,7 +5,7 @@ await pool.query(
 )
 
 await pool.query(
-    'CREATE TABLE IF NOT EXISTS tasks (task_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY, subject VARCHAR (100), topic VARCHAR (100), description TEXT, due TEXT, completed BOOLEAN, creator_id INT REFERENCES student(student_id) ON DELETE CASCADE)'
+    'CREATE TABLE IF NOT EXISTS tasks (task_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY, subject VARCHAR (100), topic VARCHAR (100), description TEXT, due TEXT, completed BOOLEAN, creator_id TEXT REFERENCES student(student_code) ON DELETE CASCADE)'
 )
 
 await pool.query(
