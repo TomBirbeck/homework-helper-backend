@@ -18,7 +18,7 @@ router.get('/test',async (req, res, next) => {
         res.send({message: "here is your test data", payload: payload})
     } catch (error) {
         res.status(400)
-        res.json({message:"test route not working"})
+        res.json({message:"test route not working", error: error})
     }
     next()
     
@@ -54,7 +54,7 @@ router.get('/student', async (req, res, next) =>{
 
 router.get('/student/tasks/:id', async (req, res, next) => {
     try {
-        const payload = await getTasksForStudent(Number(req.params.id))
+        const payload = await getTasksForStudent(req.params.id)
         res.json({success: true, payload: payload})
     } catch (error) {
         res.status(300)
@@ -111,8 +111,8 @@ router.post('/parent', async (req, res, next) =>{
 router.post('/tasks/:id', async (req, res, next) =>{
     try { 
         const {subject, topic, description, due, completed} = req.body
-        const studentId = Number(req.params.id)
-        const payload = await createNewTask(subject, topic, description, due, completed, studentId)
+        const creatorId = (req.params.id)
+        const payload = await createNewTask(subject, topic, description, due, completed, creatorId)
         res.json({message: "new task created", payload: payload})
     } catch (error) {
         res.status(404)

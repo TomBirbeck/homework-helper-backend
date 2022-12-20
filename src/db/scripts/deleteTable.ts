@@ -8,4 +8,4 @@ async function deleteTable(tableName:String) {
 
 //PUT TABLE NAME OF THE TABLE YOU WANT TO DELETE AS ARGUMENT TO THE FUNCTION BELOW
 
-deleteTable('student');
+deleteTable('');
