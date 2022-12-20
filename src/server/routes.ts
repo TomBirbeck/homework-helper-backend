@@ -18,7 +18,7 @@ router.get('/test',async (req, res, next) => {
         res.send({message: "here is your test data", payload: payload})
     } catch (error) {
         res.status(400)
-        res.json({message:"test route not working"})
+        res.json({message:"test route not working", error: error})
     }
     next()
     
