@@ -14,8 +14,10 @@ router.get('/', async (req, res, next) =>{
 
 router.get('/test',async (req, res, next) => {
     try {
-        const payload = await test()
-        res.send({message: "here is your test data", payload: payload})
+        if(req.query.code){
+            const payload = await getTasksForStudent(String(req.query.code))
+            res.json({success: true, payload: payload})
+        }
     } catch (error) {
         res.status(400)
         res.json({message:"test route not working", error: error})
@@ -52,16 +54,41 @@ router.get('/student', async (req, res, next) =>{
     next()
 })
 
-router.get('/student/tasks/:id', async (req, res, next) => {
+// router.get('/student/tasks/:id', async (req, res, next) => {
+//     try {
+//         const payload = await getTasksForStudent(req.params.id)
+//         res.json({success: true, payload: payload})
+//     } catch (error) {
+//         res.status(300)
+//         res.json({success: false, message: "request failed"})
+//     }
+//     next()
+// })
+
+router.get('/studenttasks', async (req, res, next) => {
     try {
-        const payload = await getTasksForStudent(req.params.id)
-        res.json({success: true, payload: payload})
+        if(req.query.code){
+            const payload = await getTasksForStudent(String(req.query.code))
+            res.json({success: true, payload: payload})
+        }
     } catch (error) {
         res.status(300)
-        res.json({success: false, message: "request failed"})
+        res.json({success: false, message: "request for tasks failed"})
     }
     next()
 })
+// router.get('/student/tasks', async (req, res, next) => {
+//     try {
+//             const {code}  = req.body
+//             const payload = await getTasksForStudent(code)
+//             res.json({success: true, payload: payload})
+        
+//     } catch (error) {
+//         res.status(300)
+//         res.json({success: false, message: "request failed"})
+//     }
+//     next()
+// })
 
 router.get('/parent/:id', async (req, res, next) =>{
     try {
