@@ -1,4 +1,4 @@
-import { createNewStudent, deleteStudent, getAllStudents, getStudentByEmail, getStudentById, updateStudent } from "../handlers"
+import { createNewParent, createNewStudent, deleteParent, deleteStudent, getAllStudents, getParentByEmail, getParentById, getStudentByEmail, getStudentById, updateStudent } from "../handlers"
 // import pool from '../../db/index'
 
 // beforeEach(() => {
@@ -23,7 +23,6 @@ describe('testing student handlers', ()=>{
         expect(expected).toMatchObject(actual)
     })
 
-})
 test('get student by email',async () => {
     const getStudentByEmailFunction = jest.fn(getStudentByEmail)
     const actual = await getStudentByEmailFunction("demo@email.com")
@@ -55,4 +54,58 @@ test('delete student',async () => {
     const actual = await deleteStudentFunction(6)
     const expected: Array<''> = []
     expect(expected).toMatchObject(actual)
+})
+
+})
+
+
+describe('testing parent handlers', ()=>{
+   
+ test('create parent',async () => {
+        const createParentFunction = jest.fn(createNewParent)
+        const actual = await createParentFunction("John", "Test", "parenttest@email.com", "68efc6c6-926b-4cd5-bbe2-e05b76f66ebb")
+        const expected = expect.arrayContaining([expect.objectContaining({
+            parent_id: expect.any(Number),
+            firstname: "John",
+            surname: "Test",
+            email: "parenttest@email.com",
+            child_id: "68efc6c6-926b-4cd5-bbe2-e05b76f66ebb"
+        })])
+        expect(expected).toMatchObject(actual)
+    })
+
+test('get parent by email',async () => {
+    const getParentByEmailFunction = jest.fn(getParentByEmail)
+    const actual = await getParentByEmailFunction("parenttest@email.com")
+    const expected = expect.arrayContaining([expect.objectContaining({
+        parent_id: expect.any(Number),
+        firstname: expect.any(String),
+        surname: expect.any(String),
+        email: "parenttest@email.com",
+        child_id: expect.any(String)
+    })])
+    expect(expected).toMatchObject(actual)
+})
+
+test('get parent by id',async () => {
+    const getParentByIdFunction = jest.fn(getParentById)
+    const actual = await getParentByIdFunction(5)
+    const expected = expect.arrayContaining([expect.objectContaining({
+        parent_id: 5,
+        firstname: expect.any(String),
+        surname: expect.any(String),
+        email: expect.any(String),
+        child_id: expect.any(String)
+    })])
+    expect(expected).toMatchObject(actual)
+})
+
+
+test('delete parent',async () => {
+    const deleteParentFunction = jest.fn(deleteParent)
+    const actual = await deleteParentFunction(10)
+    const expected: Array<''> = []
+    expect(expected).toMatchObject(actual)
+})
+
 })
