@@ -1,5 +1,5 @@
 import express from "express";
-import { completeTask, createNewParent, createNewStudent, createNewTask, deleteParent, deleteStudent, deleteTask, getAllStudents, getParentByEmail, getParentById, getStudentByEmail, getStudentById, getTasksForStudent, test, updateParent, updateStudent, updateTask } from "../modules/handlers.js";
+import { completeTask, createNewParent, createNewStudent, createNewTask, deleteParent, deleteStudent, deleteTask, getAllStudents, getParentByEmail, getParentById, getStudentByEmail, getStudentById, getTasksForStudent, test, updateParent, updateStudent, updateTask } from "../modules/handlers";
 const router = express.Router()
 
 router.get('/', async (req, res, next) =>{
@@ -72,7 +72,7 @@ router.get('/studenttasks', async (req, res, next) => {
             res.json({success: true, payload: payload})
         }
     } catch (error) {
-        res.status(300)
+        res.status(404)
         res.json({success: false, message: "request for tasks failed"})
     }
     next()
@@ -117,7 +117,7 @@ router.post('/student', async (req, res, next) =>{
     try { 
         const {firstname, surname, email} = req.body
         const payload = await createNewStudent(firstname, surname, email)
-        res.json({message: "new user created", payload: payload})
+        res.json({success: true, message: "new user created", payload: payload})
     } catch (error) {
         res.status(404)
         res.json({message: "error in creating student"})
@@ -128,7 +128,7 @@ router.post('/parent', async (req, res, next) =>{
     try { 
         const {firstname, surname, email, child_id} = req.body
         const payload = await createNewParent(firstname, surname, email, child_id)
-        res.json({message: "new parent created", payload: payload})
+        res.json({success: true, message: "new parent created", payload: payload})
     } catch (error) {
         res.status(404)
         res.json({message: "error in creating parent"})
@@ -140,10 +140,10 @@ router.post('/tasks/:id', async (req, res, next) =>{
         const {subject, topic, description, due, completed} = req.body
         const creatorId = (req.params.id)
         const payload = await createNewTask(subject, topic, description, due, completed, creatorId)
-        res.json({message: "new task created", payload: payload})
+        res.json({success: true, message: "new task created", payload: payload})
     } catch (error) {
         res.status(404)
-        res.json({success: false, message: error })
+        res.json({success: false, message: 'error creating task' })
     }
     next()
 })

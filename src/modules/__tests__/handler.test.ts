@@ -20,7 +20,7 @@ describe('testing student handlers', ()=>{
             email: expect.any(String),
             student_code: expect.any(String)
         })])
-        expect(expected).toMatchObject(actual)
+        expect(expected).toStrictEqual(actual)
     })
 
 test('get student by email',async () => {
@@ -33,7 +33,7 @@ test('get student by email',async () => {
         email: "demo@email.com",
         student_code: expect.any(String)
     })])
-    expect(expected).toMatchObject(actual)
+    expect(expected).toStrictEqual(actual)
 })
 
 test('create student',async () => {
@@ -46,14 +46,14 @@ test('create student',async () => {
         email: "test@email.com",
         student_code: expect.any(String)
     })])
-    expect(expected).toMatchObject(actual)
+    expect(expected).toStrictEqual(actual)
 })
 
 test('delete student',async () => {
     const deleteStudentFunction = jest.fn(deleteStudent)
     const actual = await deleteStudentFunction(6)
     const expected: Array<''> = []
-    expect(expected).toMatchObject(actual)
+    expect(expected).toStrictEqual(actual)
 })
 
 })
@@ -71,7 +71,7 @@ describe('testing parent handlers', ()=>{
             email: "parenttest@email.com",
             child_id: "68efc6c6-926b-4cd5-bbe2-e05b76f66ebb"
         })])
-        expect(expected).toMatchObject(actual)
+        expect(expected).toStrictEqual(actual)
     })
 
 test('get parent by email',async () => {
@@ -84,7 +84,7 @@ test('get parent by email',async () => {
         email: "parenttest@email.com",
         child_id: expect.any(String)
     })])
-    expect(expected).toMatchObject(actual)
+    expect(expected).toStrictEqual(actual)
 })
 
 test('get parent by id',async () => {
@@ -97,7 +97,7 @@ test('get parent by id',async () => {
         email: expect.any(String),
         child_id: expect.any(String)
     })])
-    expect(expected).toMatchObject(actual)
+    expect(expected).toStrictEqual(actual)
 })
 
 
@@ -105,7 +105,7 @@ test('delete parent',async () => {
     const deleteParentFunction = jest.fn(deleteParent)
     const actual = await deleteParentFunction(10)
     const expected: Array<''> = []
-    expect(expected).toMatchObject(actual)
+    expect(expected).toStrictEqual(actual)
 })
 
 })
