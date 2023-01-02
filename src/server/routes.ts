@@ -72,7 +72,7 @@ router.get('/studenttasks', async (req, res, next) => {
             res.json({success: true, payload: payload})
         }
     } catch (error) {
-        res.status(300)
+        res.status(404)
         res.json({success: false, message: "request for tasks failed"})
     }
     next()
@@ -140,10 +140,10 @@ router.post('/tasks/:id', async (req, res, next) =>{
         const {subject, topic, description, due, completed} = req.body
         const creatorId = (req.params.id)
         const payload = await createNewTask(subject, topic, description, due, completed, creatorId)
-        res.json({message: "new task created", payload: payload})
+        res.json({success: true, message: "new task created", payload: payload})
     } catch (error) {
         res.status(404)
-        res.json({success: false, message: error })
+        res.json({success: false, message: 'error creating task' })
     }
     next()
 })

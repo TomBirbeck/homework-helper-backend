@@ -154,3 +154,119 @@ describe('parent routes', () => {
             })
 
 })
+
+describe('task related routes', () => {
+  test('create new task', async () => {
+    const res = await request(app).post('/tasks/23f7872d-c4d5-4973-a8e9-26af69edfd8f').send({
+      subject: 'History',
+      topic: 'Henry VIII',
+      description: "research effect on the church",
+      due: "10/01/2023",
+      completed: false
+    })
+  
+  const expectedBody = {
+    success: true,
+    message: 'new task created',
+    payload: expect.arrayContaining([expect.objectContaining({
+    task_id: expect.any(Number),
+    subject: 'History',
+      topic: 'Henry VIII',
+      description: "research effect on the church",
+      due: "10/01/2023",
+      completed: false
+  })])}
+  
+  expect(res.statusCode).toBe(200);
+  expect(res.headers['content-type']).toMatch(/json/);
+  expect(res.body).toStrictEqual(expectedBody);
+  })
+
+  test('get tasks for student', async () => {
+    const res = await request(app).get('/studenttasks?code=23f7872d-c4d5-4973-a8e9-26af69edfd8f')
+    const expectedBody = {
+      success: true,
+      payload: expect.arrayContaining([expect.objectContaining({
+        task_id: expect.any(Number),
+        subject: expect.any(String),
+        topic: expect.any(String),
+        description: expect.any(String),
+        due: expect.any(String),
+        completed: expect.any(Boolean),
+        creator_id: '23f7872d-c4d5-4973-a8e9-26af69edfd8f'
+      })])
+    }
+    expect(res.statusCode).toBe(200);
+  expect(res.headers['content-type']).toMatch(/json/);
+  expect(res.body).toStrictEqual(expectedBody);
+    
+  })
+
+  test('patch task', async () => {
+    const res = await request(app).patch('/tasks/6').send({
+      task_id: 6,
+      subject: "Tom",
+      topic: "Ginger",
+      description: "will he have white hair?",
+      due: "2022-12-22",
+      completed: true,
+      creator_id: "23f7872d-c4d5-4973-a8e9-26af69edfd8f"
+
+    })
+    const expectedBody = {
+      success: true,
+      payload: expect.arrayContaining([expect.objectContaining(
+    {
+      "task_id": 6,
+      "subject": "Tom",
+      "topic": "Ginger",
+      "description": "will he have white hair?",
+      "due": "2022-12-22",
+      "completed": true,
+      "creator_id": "23f7872d-c4d5-4973-a8e9-26af69edfd8f"
+    },
+      )])
+    }
+    expect(res.statusCode).toBe(200);
+  expect(res.headers['content-type']).toMatch(/json/);
+  expect(res.body).toStrictEqual(expectedBody);
+    
+  })
+
+  test('patch to toggle completed', async () => {
+    const res = await request(app).patch('/tasks/completed/6')
+    const expectedBody = {
+      success: true,
+      payload: expect.arrayContaining([expect.objectContaining(
+    {
+      "task_id": 6,
+      "subject": "Tom",
+      "topic": "Ginger",
+      "description": "will he have white hair?",
+      "due": "2022-12-22",
+      "completed": false,
+      "creator_id": "23f7872d-c4d5-4973-a8e9-26af69edfd8f"
+    },
+      )])
+    }
+    expect(res.statusCode).toBe(200);
+    expect(res.headers['content-type']).toMatch(/json/);
+    expect(res.body).toStrictEqual(expectedBody);
+  })
+
+  test('delete task', async () => {
+
+            const res = await request(app).delete('/tasks/2')
+            
+            const expectedBody = {
+                success: true,
+                payload: []
+            }
+    
+                expect(res.statusCode).toBe(200);
+              expect(res.headers['content-type']).toMatch(/json/);
+              expect(res.body).toStrictEqual(expectedBody);
+                })
+
+
+})
