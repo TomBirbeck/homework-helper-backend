@@ -112,13 +112,14 @@ test('delete parent',async () => {
 
 describe('tests for tasks', () => {
     test('create task', async () => {
-        const actual = await createNewTask("Maths", "Algebra", "", "20/07/2023", false, '68efc6c6-926b-4cd5-bbe2-e05b76f66ebb')
+        const actual = await createNewTask("Maths", "Algebra", "", "20/07/2023", 'low', false, '68efc6c6-926b-4cd5-bbe2-e05b76f66ebb')
         const expected = [{
             task_id: expect.any(Number),
             subject: "Maths",
             topic: "Algebra",
             description: "",
             due: "20/07/2023",
+            priority: 'low',
             completed: false,
             creator_id: '68efc6c6-926b-4cd5-bbe2-e05b76f66ebb'
         }]
@@ -133,6 +134,7 @@ describe('tests for tasks', () => {
             topic: expect.any(String),
             description: expect.any(String),
             due: expect.any(String),
+            priority: expect.any(String),
             completed: expect.any(Boolean),
             creator_id: '68efc6c6-926b-4cd5-bbe2-e05b76f66ebb'
         }])
@@ -145,6 +147,7 @@ describe('tests for tasks', () => {
             subject: expect.any(String),
             topic: expect.any(String),
             description: expect.any(String),
+            priority: expect.any(String),
             due: expect.any(String),
             completed: expect.any(Boolean),
             creator_id: '68efc6c6-926b-4cd5-bbe2-e05b76f66ebb'
@@ -159,6 +162,7 @@ describe('tests for tasks', () => {
             topic: expect.any(String),
             description: expect.any(String),
             due: expect.any(String),
+            priority: expect.any(String),
             completed: true,
             creator_id: expect.any(String)
         }]

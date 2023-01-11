@@ -1,5 +1,5 @@
 import express from "express";
-import { completeTask, createNewParent, createNewStudent, createNewTask, deleteParent, deleteStudent, deleteTask, getAllStudents, getParentById, getTasksForStudent, test, updateParent, updateStudent, updateTask } from "../modules/handlers.js";
+import { completeTask, createNewParent, createNewStudent, createNewTask, deleteParent, deleteStudent, deleteTask, getParentByEmail, getParentById, getStudentByEmail, getStudentById, getTasksForStudent, updateParent, updateStudent, updateTask } from "../modules/handlers";
 const router = express.Router();
 router.get('/', async (req, res, next) => {
     try {
@@ -13,21 +13,23 @@ router.get('/', async (req, res, next) => {
 });
 router.get('/test', async (req, res, next) => {
     try {
-        const payload = await test();
-        res.send({ message: "here is your test data", payload: payload });
+        if (req.query.code) {
+            const payload = await getTasksForStudent(String(req.query.code));
+            res.json({ success: true, payload: payload });
+        }
     }
     catch (error) {
         res.status(400);
-        res.json({ message: "test route not working" });
+        res.json({ message: "test route not working", error: error });
     }
     next();
 });
 router.post('/signup', async (req, res, next) => {
 });
-router.get('/student', async (req, res, next) => {
+router.get('/student/:id', async (req, res, next) => {
     try {
-        const payload = await getAllStudents();
-        res.json({ payload: payload });
+        const payload = await getStudentById(Number(req.params.id));
+        res.json({ success: true, payload: payload });
     }
     catch (error) {
         res.status(300);
@@ -35,17 +37,53 @@ router.get('/student', async (req, res, next) => {
     }
     next();
 });
-router.get('/student/:id', async (req, res, next) => {
+router.get('/student', async (req, res, next) => {
     try {
-        const payload = await getTasksForStudent(Number(req.params.id));
-        res.json({ success: true, payload: payload });
+        if (req.query.email) {
+            const payload = await getStudentByEmail(String(req.query.email));
+            res.json({ success: true, payload: payload });
+        }
     }
     catch (error) {
-        res.status(300);
-        res.json({ success: false, message: "request failed" });
+        res.status(404);
+        res.json({ success: false, message: "student not found" });
     }
     next();
 });
+// router.get('/student/tasks/:id', async (req, res, next) => {
+//     try {
+//         const payload = await getTasksForStudent(req.params.id)
+//         res.json({success: true, payload: payload})
+//     } catch (error) {
+//         res.status(300)
+//         res.json({success: false, message: "request failed"})
+//     }
+//     next()
+// })
+router.get('/studenttasks', async (req, res, next) => {
+    try {
+        if (req.query.code) {
+            const payload = await getTasksForStudent(String(req.query.code));
+            res.json({ success: true, payload: payload });
+        }
+    }
+    catch (error) {
+        res.status(404);
+        res.json({ success: false, message: "request for tasks failed" });
+    }
+    next();
+});
+// router.get('/student/tasks', async (req, res, next) => {
+//     try {
+//             const {code}  = req.body
+//             const payload = await getTasksForStudent(code)
+//             res.json({success: true, payload: payload})
+//     } catch (error) {
+//         res.status(300)
+//         res.json({success: false, message: "request failed"})
+//     }
+//     next()
+// })
 router.get('/parent/:id', async (req, res, next) => {
     try {
         const payload = await getParentById(Number(req.params.id));
@@ -55,12 +93,26 @@ router.get('/parent/:id', async (req, res, next) => {
         res.status(404);
         res.json({ success: false, message: "parent not found" });
     }
+    next();
+});
+router.get('/parent', async (req, res, next) => {
+    try {
+        if (req.query.email) {
+            const payload = await getParentByEmail(String(req.query.email));
+            res.json({ success: true, payload: payload });
+        }
+    }
+    catch (error) {
+        res.status(404);
+        res.json({ success: false, message: "parent not found" });
+    }
+    next();
 });
 router.post('/student', async (req, res, next) => {
     try {
-        const { firstname, surname, email, password } = req.body;
-        const payload = await createNewStudent(firstname, surname, email, password);
-        res.json({ message: "new user created", payload: payload });
+        const { firstname, surname, email } = req.body;
+        const payload = await createNewStudent(firstname, surname, email);
+        res.json({ success: true, message: "new user created", payload: payload });
     }
     catch (error) {
         res.status(404);
@@ -70,9 +122,9 @@ router.post('/student', async (req, res, next) => {
 });
 router.post('/parent', async (req, res, next) => {
     try {
-        const { firstname, surname, email, password, child_id } = req.body;
-        const payload = await createNewParent(firstname, surname, email, password, child_id);
-        res.json({ message: "new parent created", payload: payload });
+        const { firstname, surname, email, child_id } = req.body;
+        const payload = await createNewParent(firstname, surname, email, child_id);
+        res.json({ success: true, message: "new parent created", payload: payload });
     }
     catch (error) {
         res.status(404);
@@ -82,14 +134,14 @@ router.post('/parent', async (req, res, next) => {
 });
 router.post('/tasks/:id', async (req, res, next) => {
     try {
-        const { subject, topic, description, due, completed } = req.body;
-        const studentId = Number(req.params.id);
-        const payload = await createNewTask(subject, topic, description, due, completed, studentId);
-        res.json({ message: "new task created", payload: payload });
+        const { subject, topic, description, due, priority, completed } = req.body;
+        const creatorId = (req.params.id);
+        const payload = await createNewTask(subject, topic, description, due, priority, completed, creatorId);
+        res.json({ success: true, message: "new task created", payload: payload });
     }
     catch (error) {
         res.status(404);
-        res.json({ success: false, message: error });
+        res.json({ success: false, message: 'error creating task' });
     }
     next();
 });
