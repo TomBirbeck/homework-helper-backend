@@ -1,4 +1,4 @@
-import pool from '../db/index';
+import pool from '../db/index.js';
 import { v4 as uuidv4 } from 'uuid';
 export const test = async () => {
     const res = await pool.query(`SELECT * FROM tasks;`);
