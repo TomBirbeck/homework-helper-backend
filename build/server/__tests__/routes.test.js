@@ -130,6 +130,7 @@ describe('task related routes', () => {
             subject: 'History',
             topic: 'Henry VIII',
             description: "research effect on the church",
+            priority: 'low',
             due: "10/01/2023",
             completed: false
         });
@@ -141,6 +142,7 @@ describe('task related routes', () => {
                     subject: 'History',
                     topic: 'Henry VIII',
                     description: "research effect on the church",
+                    priority: 'low',
                     due: "10/01/2023",
                     completed: false
                 })])
@@ -159,6 +161,7 @@ describe('task related routes', () => {
                     topic: expect.any(String),
                     description: expect.any(String),
                     due: expect.any(String),
+                    priority: expect.any(String),
                     completed: expect.any(Boolean),
                     creator_id: '23f7872d-c4d5-4973-a8e9-26af69edfd8f'
                 })])
@@ -174,6 +177,7 @@ describe('task related routes', () => {
             topic: "Ginger",
             description: "will he have white hair?",
             due: "2022-12-22",
+            priority: 'low',
             completed: true,
             creator_id: "23f7872d-c4d5-4973-a8e9-26af69edfd8f"
         });
@@ -185,6 +189,7 @@ describe('task related routes', () => {
                     "topic": "Ginger",
                     "description": "will he have white hair?",
                     "due": "2022-12-22",
+                    "priority": 'low',
                     "completed": true,
                     "creator_id": "23f7872d-c4d5-4973-a8e9-26af69edfd8f"
                 })])
@@ -203,6 +208,7 @@ describe('task related routes', () => {
                     "topic": "Ginger",
                     "description": "will he have white hair?",
                     "due": "2022-12-22",
+                    "priority": 'low',
                     "completed": false,
                     "creator_id": "23f7872d-c4d5-4973-a8e9-26af69edfd8f"
                 })])

@@ -12,12 +12,12 @@ const res = await pool.query('INSERT INTO student (firstname, surname, email, st
 return res.rows
 }
 
-export const createNewParent = async (firstname:String, surname:String, email:String, childId:String) =>{
+export const createNewParent = async (firstname:string, surname:string, email:string, childId:string) =>{
     const res = await pool.query('INSERT INTO parent (firstname, surname, email, child_id) VALUES ($1,$2,$3,$4) RETURNING *;', [firstname, surname, email, childId])
     return res.rows
 }
-export const createNewTask = async (subject:String, topic:String, description:String, due:String, completed:Boolean, creatorId:String) =>{
-    const res = await pool.query('INSERT INTO tasks (subject, topic, description, due, completed, creator_id) VALUES ($1,$2,$3,$4,$5,$6) RETURNING*;', [subject, topic, description, due, completed, creatorId])
+export const createNewTask = async (subject:string, topic:string, description:string, due:string, priority:string, completed:Boolean, creatorId:String) =>{
+    const res = await pool.query('INSERT INTO tasks (subject, topic, description, due, priority, completed, creator_id) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING*;', [subject, topic, description, due, priority,completed, creatorId])
     return res.rows
 }
 
@@ -90,8 +90,8 @@ export const updateParent = async (body: {firstname: String, surname: String, em
         return res.rows
     }
 }
-export const updateTask = async (body: {subject: String, topic: String, description: String, due: String, completed: Boolean}, task_id: Number) => {
-    const res = await pool.query('UPDATE tasks SET subject=($1), topic=($2), description=($3), due=($4), completed=($5) WHERE task_id=($6) RETURNING*;', [body.subject, body.topic, body.description, body.due, body.completed, task_id])
+export const updateTask = async (body: {subject: string, topic: string, description: string, due: string, priority: string, completed: Boolean}, task_id: Number) => {
+    const res = await pool.query('UPDATE tasks SET subject=($1), topic=($2), description=($3), due=($4), priority($5), completed=($6), WHERE task_id=($7) RETURNING*;', [body.subject, body.topic, body.description, body.due, body.priority, body.completed, task_id])
     return res.rows
 }
 export const completeTask = async (task_id: Number) => {

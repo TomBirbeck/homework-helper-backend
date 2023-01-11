@@ -137,9 +137,9 @@ router.post('/parent', async (req, res, next) =>{
 })
 router.post('/tasks/:id', async (req, res, next) =>{
     try { 
-        const {subject, topic, description, due, completed} = req.body
+        const {subject, topic, description, due, priority, completed} = req.body
         const creatorId = (req.params.id)
-        const payload = await createNewTask(subject, topic, description, due, completed, creatorId)
+        const payload = await createNewTask(subject, topic, description, due, priority, completed, creatorId)
         res.json({success: true, message: "new task created", payload: payload})
     } catch (error) {
         res.status(404)
