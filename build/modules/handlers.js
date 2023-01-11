@@ -81,7 +81,7 @@ export const updateParent = async (body, parent_id) => {
     }
 };
 export const updateTask = async (body, task_id) => {
-    const res = await pool.query('UPDATE tasks SET subject=($1), topic=($2), description=($3), due=($4), priority($5), completed=($6), WHERE task_id=($7) RETURNING*;', [body.subject, body.topic, body.description, body.due, body.priority, body.completed, task_id]);
+    const res = await pool.query('UPDATE tasks SET subject=($1), topic=($2), description=($3), due=($4), priority=($5), completed=($6) WHERE task_id=($7) RETURNING*;', [body.subject, body.topic, body.description, body.due, body.priority, body.completed, task_id]);
     return res.rows;
 };
 export const completeTask = async (task_id) => {

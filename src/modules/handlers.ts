@@ -17,7 +17,7 @@ export const createNewParent = async (firstname:string, surname:string, email:st
     return res.rows
 }
 export const createNewTask = async (subject:string, topic:string, description:string, due:string, priority:string, completed:Boolean, creatorId:String) =>{
-    const res = await pool.query('INSERT INTO tasks (subject, topic, description, due, priority, completed, creator_id) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING*;', [subject, topic, description, due, priority,completed, creatorId])
+    const res = await pool.query('INSERT INTO tasks (subject, topic, description, due, priority, completed, creator_id) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING*;', [subject, topic, description, due, priority, completed, creatorId])
     return res.rows
 }
 
@@ -91,7 +91,7 @@ export const updateParent = async (body: {firstname: String, surname: String, em
     }
 }
 export const updateTask = async (body: {subject: string, topic: string, description: string, due: string, priority: string, completed: Boolean}, task_id: Number) => {
-    const res = await pool.query('UPDATE tasks SET subject=($1), topic=($2), description=($3), due=($4), priority($5), completed=($6), WHERE task_id=($7) RETURNING*;', [body.subject, body.topic, body.description, body.due, body.priority, body.completed, task_id])
+    const res = await pool.query('UPDATE tasks SET subject=($1), topic=($2), description=($3), due=($4), priority=($5), completed=($6) WHERE task_id=($7) RETURNING*;', [body.subject, body.topic, body.description, body.due, body.priority, body.completed, task_id])
     return res.rows
 }
 export const completeTask = async (task_id: Number) => {
