@@ -1,5 +1,5 @@
-import pool from '../index.js';
-import { students } from "../dummyData.js";
+import pool from '../index';
+import { students } from "../dummyData";
 // interface studentArrayProps {
 //     students: studentIProps[]
 //     length: Number

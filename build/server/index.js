@@ -11,6 +11,5 @@ app.use('/', useRouter);
 //     res.json({ message: 'hello' });
 //     next()
 // });
-// app.use('/homework', useRouter);
 app.listen(PORT, async () => console.log(`app listening on port ${PORT}`));
 export default app;
