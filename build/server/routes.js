@@ -1,5 +1,5 @@
 import express from "express";
-import { completeTask, createNewParent, createNewStudent, createNewTask, deleteParent, deleteStudent, deleteTask, getParentByEmail, getParentById, getStudentByEmail, getStudentById, getTasksForStudent, updateParent, updateStudent, updateTask } from "../modules/handlers";
+import { completeTask, createNewParent, createNewStudent, createNewTask, deleteParent, deleteStudent, deleteTask, getParentByEmail, getParentById, getStudentByEmail, getStudentById, getTasksForStudent, updateParent, updateStudent, updateTask } from "../modules/handlers.js";
 const router = express.Router();
 router.get('/', async (req, res, next) => {
     try {
