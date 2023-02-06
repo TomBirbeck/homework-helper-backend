@@ -92,6 +92,11 @@ export const deleteTask = async (taskId) => {
     const res = await pool.query('DELETE FROM tasks WHERE task_id = ($1);', [taskId]);
     return res.rows;
 };
+export const shadowDeleteTask = async (taskId, deleted) => {
+    console.log(deleted);
+    const res = await pool.query('UPDATE tasks SET deleted=($1) WHERE task_id=($2) RETURNING*;', [deleted, taskId]);
+    return res.rows;
+};
 export const deleteStudent = async (studentId) => {
     const res = await pool.query('DELETE FROM student WHERE student_id = ($1);', [studentId]);
     return res.rows;

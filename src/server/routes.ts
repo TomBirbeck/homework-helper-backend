@@ -1,5 +1,5 @@
 import express from "express";
-import { completeTask, createNewParent, createNewStudent, createNewTask, deleteParent, deleteStudent, deleteTask, getAllStudents, getParentByEmail, getParentById, getStudentByEmail, getStudentById, getTasksForStudent, test, updateParent, updateStudent, updateTask } from "../modules/handlers.js";
+import { completeTask, createNewParent, createNewStudent, createNewTask, deleteParent, deleteStudent, deleteTask, getAllStudents, getParentByEmail, getParentById, getStudentByEmail, getStudentById, getTasksForStudent, shadowDeleteTask, test, updateParent, updateStudent, updateTask } from "../modules/handlers.js";
 const router = express.Router()
 
 router.get('/', async (req, res, next) =>{
@@ -231,6 +231,16 @@ router.delete('/tasks/:id', async (req, res, next) =>{
     } catch (error) {
         res.status(400)
         res.json({success: false, message: "failed to delete task"})
+    }
+    next()
+})
+router.patch('/tasksshadowdelete', async (req, res, next) => {
+    try {
+        const payload = await shadowDeleteTask(Number(req.body.id), req.body.deleted)
+        res.json({success: true, payload: payload})
+    } catch(error) {
+        res.status(400)
+        res.json({success: false, message: "failed to deleted task"})
     }
     next()
 })

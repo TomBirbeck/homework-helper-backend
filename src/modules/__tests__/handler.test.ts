@@ -1,4 +1,4 @@
-import { completeTask, createNewParent, createNewStudent, createNewTask, deleteParent, deleteStudent, deleteTask, getAllStudents, getParentByEmail, getParentById, getStudentByEmail, getStudentById, getStudentTasksForParent, getTasksForStudent, updateStudent } from "../handlers"
+import { completeTask, createNewParent, createNewStudent, createNewTask, deleteParent, deleteStudent, deleteTask, getAllStudents, getParentByEmail, getParentById, getStudentByEmail, getStudentById, getStudentTasksForParent, getTasksForStudent, shadowDeleteTask, updateStudent } from "../handlers"
 // import pool from '../../db/index'
 
 // beforeEach(() => {
@@ -173,6 +173,22 @@ describe('tests for tasks', () => {
         const actual = await deleteTask(12)
         const expected: Array<''> = []
         expect(expected).toStrictEqual(actual)
+    })
+
+    test('shadow delete task', async () => {
+        const actual = await shadowDeleteTask(3, true)
+        const expected = {
+            task_id: 3,
+            subject: expect.any(String),
+            topic: expect.any(String),
+            description: expect.any(String),
+            due: expect.any(String),
+            priority: expect.any(String),
+            completed: expect.any(Boolean),
+            creator_id: expect.any(String),
+            delete: true
+        } 
+        expect(actual).toStrictEqual(expected)
     })
 
 })
